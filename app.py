@@ -1,15 +1,21 @@
 from flask import Flask, request, jsonify
 import nltk
-
-# Ensure punkt is available (download once when container starts)
-
 from nltk.tokenize import word_tokenize, sent_tokenize
+
+# Ensure punkt is present
+try:
+    nltk.data.find("tokenizers/punkt")
+except LookupError:
+    nltk.download("punkt", quiet=True)
 
 app = Flask(__name__)
 
+@app.route("/")
+def home():
+    return {"status": "running"}
+
 @app.route("/ping")
 def ping():
-    nltk.download('punkt')
     return {"status": "ok"}
 
 @app.route("/tokenize", methods=["POST"])
