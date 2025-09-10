@@ -1,17 +1,20 @@
-# app.py
 from flask import Flask, request, jsonify
 import nltk
 
-# Download punkt once (this will stay on the server)
-# nltk.download('punkt')
+# Ensure punkt is available (download once when container starts)
 
 from nltk.tokenize import word_tokenize, sent_tokenize
 
 app = Flask(__name__)
 
+@app.route("/ping")
+def ping():
+    nltk.download('punkt')
+    return {"status": "ok"}
+
 @app.route("/tokenize", methods=["POST"])
 def tokenize():
-    data = request.get_json()
+    data = request.get_json(force=True) or {}
     text = data.get("text", "")
     sentences = sent_tokenize(text)
     words = [word_tokenize(s) for s in sentences]
