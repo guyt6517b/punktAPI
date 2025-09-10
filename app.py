@@ -2,11 +2,12 @@ from flask import Flask, request, jsonify
 import nltk
 from nltk.tokenize import word_tokenize, sent_tokenize
 
-# Ensure punkt is present
-try:
-    nltk.data.find("tokenizers/punkt")
-except LookupError:
-    nltk.download("punkt", quiet=True)
+# Ensure punkt + punkt_tab are installed
+for resource in ["punkt", "punkt_tab"]:
+    try:
+        nltk.data.find(f"tokenizers/{resource}")
+    except LookupError:
+        nltk.download(resource, quiet=True)
 
 app = Flask(__name__)
 
