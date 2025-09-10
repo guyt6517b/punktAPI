@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify
 import nltk
 
 # Download punkt once (this will stay on the server)
-nltk.download('punkt')
+# nltk.download('punkt')
 
 from nltk.tokenize import word_tokenize, sent_tokenize
 
